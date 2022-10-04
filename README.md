@@ -24,10 +24,18 @@ Edit data/config.json
 ```json
 {
     "wifi": {
-        "ssid": "SSID",
-        "password": "PASSWORD",
-        "hostname": "433mhz-api-bridge",
+        "ssid": "myssid",
+        "password": "mypassword",
+        "hostname": "your-hostname",
         "port": 80
+    },
+    "microcontroller": {
+        "serial_baudrate": 9600
+    },
+    "transmitter": {
+        "pin": 27,
+        "protocol": 1,
+        "pulse_length": 500
     },
     "api": {
         "key": "your-api-key"
