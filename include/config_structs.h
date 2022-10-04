@@ -1,8 +1,8 @@
 
 struct wifi {
-    char ssid[32];
-    char password[64];
-    char hostname[32];
+    String ssid;
+    String password;
+    String hostname;
     int port;
 };
 
@@ -17,7 +17,7 @@ struct transmitter {
 };
 
 struct api {
-    char token[64];
+    String token;
 };
 
 struct config {
