@@ -6,7 +6,7 @@
         "port": 80
     },
     "microcontroller": {
-        "serial_baudrate": 9600
+        "serial_baudrate": 115200
     },
     "transmitter": {
         "pin": 27,

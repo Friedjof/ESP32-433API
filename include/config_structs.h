@@ -3,7 +3,6 @@ struct wifi {
     String ssid;
     String password;
     String hostname;
-    int port;
 };
 
 struct microcontroller {
@@ -17,7 +16,8 @@ struct transmitter {
 };
 
 struct api {
-    String token;
+    String key;
+    int port;
 };
 
 struct config {
