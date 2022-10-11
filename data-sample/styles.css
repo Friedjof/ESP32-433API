@@ -1,0 +1,247 @@
+label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+/* make a keyframe animation that fades the label in and out */
+@keyframes formFadeIn {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.2;
+    }
+    70% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Set the global font size and family */
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    background-image: linear-gradient(25deg, #00b722 0%, #ffcc00 100%);
+}
+
+/* style the form h1 */
+form h1 {
+    font-weight: lighter;
+    margin-bottom: 1em;
+}
+
+/* Center the form */
+form {
+    animation: 500ms ease-out 0s 1 formFadeIn;
+    width: 400px;
+    padding: 1em;
+    border-radius: 1em;
+    text-align: center;
+    border: 1px solid #000;
+    box-shadow: 0 0 1em #000;
+    background: #ffffff;
+    /* Center the form */
+    margin: 5em auto;
+}
+
+.body-container {
+    height: 90%;
+}
+
+/* Add more bright colors to the form */
+form input {
+    background: #ffffff;
+    border: 1px solid rgb(22, 187, 0);
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    color: #333;
+    /* full width */
+    width: 90%;
+}
+
+/* upercase the submit input */
+form input[type="submit"] {
+    text-transform: uppercase;
+}
+
+/* Add space between form divs */
+form div {
+    margin-bottom: 1.5em;
+}
+
+/* Style the configuration description */
+form p {
+    font-size: 0.8em;
+    color: #000;
+    /* add a box shadow to the description */
+    box-shadow: 0 0 1em #777;
+    /* round the corners */
+    border-radius: 0.5em;
+    /* add a orange background */
+    background: #ffcc00;
+    /* optimize the padding */
+    padding: 0.5em 1em;
+    /* add border */
+    border: 1px solid #000;
+}
+
+/* effect for input:focus */
+form input:focus {
+    color: #000;
+    /* add a smooth shadow */
+    box-shadow: 0 0 10px rgb(255, 204, 0, 0.3);
+}
+
+/* hover effect for the submit button */
+form input[type="submit"]:hover {
+    background: #ffcc00;
+    box-shadow: 0 0 8px #444;
+    border-color: #000;
+    /* add a transition effect */
+    transition: background 0.5s, box-shadow 0.2s;
+    /* add a cursor */
+    cursor: pointer;
+}
+
+/* Add the footer styles */
+footer {
+    text-align: center;
+    background: #333;
+    color: #ffcc00;
+    /* fixed position at the bottom of the page */
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    /* add size */
+    width: 100%;
+    height: 80px;
+}
+
+/* order the footer elements side by side */
+.footer-element {
+    display: inline-block;
+    /* add background color */
+    background: #333;
+    /* add size */
+    width: 12%;
+    height: 100px;
+    /* border at the top */
+    border-top: 3px solid #ffcc00;
+    /* add margin */
+    margin: -3px auto;
+}
+
+/* add yellow border to the first element */
+.footer-element:first-child {
+    border-left: 3px solid #ffcc00;
+    /* round the left corner */
+    border-radius: 1em 0 0 0;
+}
+
+/* add yellow border to the last element */
+.footer-element:last-child {
+    border-right: 3px solid #ffcc00;
+    /* round the right corner */
+    border-radius: 0 1em 0 0;
+}
+
+.footer-element a {
+    color: #ffcc00;
+    /* hide underline */
+    text-decoration: none;
+    /* add size */
+    width: 100%;
+    height: 100%;
+}
+
+.footer-element a div {
+    /* add size */
+    width: 100%;
+    height: 80%;
+    /* center the text vertically */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Add a hover effect to the footer elements */
+.footer-element:hover {
+    transform: translateY(-15px);
+    /* add border radius */
+    border-radius: 1em 1em 0 0;
+    /* add a transition effect */
+    transition: transform 0.5s, border-radius 0.5s;
+}
+
+.error-container {
+    background-color: darkred;
+    /* center the div */
+    margin: 1em auto;
+    /* add width */
+    width: 80%;
+    /* add padding */
+    padding: 1em;
+    /* round the corners */
+    border-radius: 1em;
+}
+
+.error-msg {
+    background-color: darkred;
+    color: white;
+    /* center the text */
+    text-align: center;
+    /* add margin */
+    margin: 0;
+    /* add padding */
+    padding: 0;
+    /* remove shadow */
+    box-shadow: none;
+    /* remove border */
+    border: none;
+    /* bold the text */
+    font-weight: bold;
+}
+
+/* .button to make a button from a div */
+.button {
+    display: inline-block;
+    border-radius: 0.5em;
+    color: #000;
+    background: #ffcc00;
+    /* add a cursor */
+    cursor: pointer;
+    /* add width */
+    width: 90%;
+    height: 50px;
+}
+
+.button a {
+    /* hide link underline */
+    text-decoration: none;
+    /* add width */
+    width: 100%;
+    height: 100%;
+    /* center the text vertically */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* upercase the text */
+    text-transform: uppercase;
+}
+
+.button-plate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* add size */
+    width: 100%;
+    height: 100%;
+}
+
+.attention-icon img {
+    /* add size */
+    width: 80px;
+    height: 70px;
+}

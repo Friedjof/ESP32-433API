@@ -23,19 +23,31 @@ void setup() {
   readConfig(&cfg);
 
   Serial.println("Connecting to WiFi...");
+
   WiFi.begin(cfg.wifi.ssid.c_str(), cfg.wifi.password.c_str());
 
-  while (WiFi.status() != WL_CONNECTED) {
+  for (int i = 0; i < 10; i++) {
+    if (WiFi.status() == WL_CONNECTED) {
+      break;
+    }
     delay(500);
     Serial.print(".");
   }
-  Serial.println("WiFi connected");
 
-  // Log the IP and MAC address
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
-  Serial.print("MAC address: ");
-  Serial.println(WiFi.macAddress());
+  // check if connected
+  // if not, start AP mode
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi not connected, starting AP mode...");
+    WiFi.softAP("ESP32-433API");
+    IPAddress IP = WiFi.softAPIP();
+    Serial.print("AP IP address: ");
+    // Log link to config page
+    Serial.println("Please connect to the AP and go to http://" + IP.toString() + "/ to configure the device.");
+  } else {
+    Serial.println("WiFi connected");
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+  }
 
   // Setup 433 MHz
   transmiter.enableTransmit(cfg.transmitter.pin);
@@ -44,6 +56,46 @@ void setup() {
 
   // Setup Webserver
   server.begin();
+
+  // Setup routes
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    Serial.println("A request was made to GET /");
+    if (WiFi.status() != WL_CONNECTED){
+      Serial.print("Loading config page...");
+      request->send(SPIFFS, "/config.html", "text/html");
+    } else {
+      Serial.println("Send the wifi status message");
+      request->send(200, "text/plain", "WiFi Status: Connected");
+    }
+    Serial.println("…done [GET /]");
+  });
+
+  server.on("/styles", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/styles.css", "text/css");
+  });
+
+  server.on("/config", HTTP_GET, [](AsyncWebServerRequest *request){
+    Serial.println("A request was made to POST /config");
+
+    if (request->hasParam("ssid") && request->hasParam("password")) {
+      cfg.wifi.ssid = request->getParam("ssid")->value();
+      cfg.wifi.password = request->getParam("password")->value();
+
+      // log configuration
+      Serial.println("SSID: " + cfg.wifi.ssid);
+      Serial.println("Password: " + cfg.wifi.password);
+
+      // save configuration
+      saveConfig(&cfg);
+
+      request->send(200, "text/plain", "WiFi configuration saved");
+    } else if (request->hasParam("show")) {
+      serializeConfig();
+      request->send(200, "text/plain", "The configuration was logged to the serial console");
+    } else {
+      request->send(406, "text/plain", "Configuration not acceptable");
+    }
+  });
 
   server.on("/transmit", HTTP_GET, [](AsyncWebServerRequest *request){
     // Authontification
