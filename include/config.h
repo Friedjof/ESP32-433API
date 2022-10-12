@@ -5,6 +5,8 @@
 
 #include <config_structs.h>
 
+#define DOC_SIZE 2048
+
 
 void readConfig(config *cfg) {
     // begin SPIFFS filesystem
@@ -22,7 +24,7 @@ void readConfig(config *cfg) {
 
     size_t size = configFile.size();
     Serial.println("data size: " + String(size));
-    if (size > 1024) {
+    if (size > DOC_SIZE) {
         Serial.println("Config file size is too large");
         configFile.close();
     }
@@ -30,7 +32,7 @@ void readConfig(config *cfg) {
     std::unique_ptr<char[]> buf(new char[size]);
 
     configFile.readBytes(buf.get(), size);
-    DynamicJsonDocument doc(1024);
+    DynamicJsonDocument doc(DOC_SIZE);
     DeserializationError error = deserializeJson(doc, buf.get());
     if (error) {
         Serial.println("Failed to parse config file");
@@ -50,10 +52,13 @@ void readConfig(config *cfg) {
     cfg->wifi.ssid = ssid;
     cfg->wifi.password = password;
     cfg->wifi.hostname = hostname;
+
     cfg->microcontroller.serial_baudrate = serial_baudrate;
+
     cfg->transmitter.pin = pin;
     cfg->transmitter.protocol = protocol;
     cfg->transmitter.pulse_length = pulse_length;
+
     cfg->api.key = key;
     cfg->api.port = port;
 
@@ -69,7 +74,7 @@ bool serializeConfig() {
 
     size_t size = configFile.size();
     Serial.println("data size: " + String(size));
-    if (size > 1024) {
+    if (size > DOC_SIZE) {
         Serial.println("Config file size is too large");
         configFile.close();
     }
@@ -77,7 +82,7 @@ bool serializeConfig() {
     std::unique_ptr<char[]> buf(new char[size]);
 
     configFile.readBytes(buf.get(), size);
-    DynamicJsonDocument doc(1024);
+    DynamicJsonDocument doc(DOC_SIZE);
     DeserializationError error = deserializeJson(doc, buf.get());
     if (error) {
         Serial.println("Failed to parse config file");
@@ -101,13 +106,19 @@ bool saveConfig(config *cfg) {
     Serial.println("SSID: " + cfg->wifi.ssid);
     Serial.println("Password: " + cfg->wifi.password);
 
-    DynamicJsonDocument doc(1024);
+    DynamicJsonDocument doc(DOC_SIZE);
     doc["wifi"]["ssid"] = cfg->wifi.ssid;
     doc["wifi"]["password"] = cfg->wifi.password;
     doc["wifi"]["hostname"] = cfg->wifi.hostname;
-    doc["wifi"]["port"] = cfg->api.port;
+
     doc["microcontroller"]["serial_baudrate"] = cfg->microcontroller.serial_baudrate;
+
     doc["transmitter"]["pin"] = cfg->transmitter.pin;
+    doc["transmitter"]["protocol"] = cfg->transmitter.protocol;
+    doc["transmitter"]["pulse_length"] = cfg->transmitter.pulse_length;
+
+    doc["api"]["key"] = cfg->api.key;
+    doc["api"]["port"] = cfg->api.port;
 
     Serial.print("SSID: ");
     Serial.println(cfg->wifi.ssid);

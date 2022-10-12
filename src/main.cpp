@@ -40,7 +40,6 @@ void setup() {
     Serial.println("WiFi not connected, starting AP mode...");
     WiFi.softAP("ESP32-433API");
     IPAddress IP = WiFi.softAPIP();
-    Serial.print("AP IP address: ");
     // Log link to config page
     Serial.println("Please connect to the AP and go to http://" + IP.toString() + "/ to configure the device.");
   } else {
@@ -53,6 +52,8 @@ void setup() {
   transmiter.enableTransmit(cfg.transmitter.pin);
   transmiter.setProtocol(cfg.transmitter.protocol);
   transmiter.setPulseLength(cfg.transmitter.pulse_length);
+
+  Serial.println("433 MHz config as finished.");
 
   // Setup Webserver
   server.begin();
@@ -75,20 +76,18 @@ void setup() {
   });
 
   server.on("/config", HTTP_GET, [](AsyncWebServerRequest *request){
-    Serial.println("A request was made to POST /config");
+    Serial.println("A request was made to GET /config");
 
     if (request->hasParam("ssid") && request->hasParam("password")) {
       cfg.wifi.ssid = request->getParam("ssid")->value();
       cfg.wifi.password = request->getParam("password")->value();
 
-      // log configuration
-      Serial.println("SSID: " + cfg.wifi.ssid);
-      Serial.println("Password: " + cfg.wifi.password);
-
       // save configuration
       saveConfig(&cfg);
 
-      request->send(200, "text/plain", "WiFi configuration saved");
+      request->send(200, "text/plain", "WiFi configuration saved. The ESP will reboot now…");
+
+      ESP.restart();
     } else if (request->hasParam("show")) {
       serializeConfig();
       request->send(200, "text/plain", "The configuration was logged to the serial console");
@@ -121,6 +120,9 @@ bool isAuthentificated(AsyncWebServerRequest *request) {
 
     if (key == cfg.api.key) {
       return true;
+    } else {
+      Serial.print("The API key is not correct. The correct key is: ");
+      Serial.println(cfg.api.key);
     }
   }
   return false;
@@ -130,10 +132,14 @@ void transmit(String message, AsyncWebServerRequest *request) {
   if (request -> hasParam("type")) {
     String transmit_type = request->getParam("type")->value();
     if (transmit_type == "hex") {
+      Serial.print("hex, msg: ");
+      Serial.println(message);
       // transmit hex message
       transmiter.sendTriState(message.c_str());
     } else {
       // transmit binary message
+      Serial.print("type: ");
+      Serial.println(transmit_type);
       transmiter.send(message.c_str());
     }
   }
