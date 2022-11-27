@@ -1,0 +1,84 @@
+<html lang="DE_de" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <title>API Documentation</title>
+        <!-- Include own CSS styles -->
+        <link rel="stylesheet" href="/home/friedjof/dev/repositories/ESP32-433API/data-sample/styles.css" />
+        <!-- Include js script -->
+        <script src="/home/friedjof/dev/repositories/ESP32-433API/data-sample/script.js"></script>
+    </head>
+    <body>
+        <!-- this container includes some popups -->
+        <div class="response">
+            <div id="sending">
+                <!-- sending popup -->
+                <div class="popup">
+                    <button class="close" onclick="closePopup('sending')">&times;</button>
+                    <div class="popup-content">
+                        <div class="popup-header">
+                            <h2>Sending</h2>
+                        </div>
+                        <div class="popup-body">
+                            <p>Request is sending...</p>
+                        </div>
+                    </div>
+                    <!-- the loading animation -->
+                    <div class="popup-loading-bar">
+                        <svg class="loading-bar" id="transmit-loading-bar" width="100%" height="8px">
+                            <rect width="100%" height="5" style="fill:#00B722FF;stroke-width:3;stroke:#00B722FF" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div id="error">
+                <!-- error popup -->
+                <div class="popup">
+                    <button class="close" onclick="closePopup('error')">&times;</button>
+                    <div class="popup-content">
+                        <div class="popup-header">
+                            <h2>Error</h2>
+                        </div>
+                        <div class="popup-body">
+                            <p id="error-message"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- this is the main container -->
+        <div class="doc-container">
+            <div class="api-doc-panel">
+                <h1>API Documentation</h1>
+                <div class="api-components">
+                    <div class="api-component" id="api-calls">
+                        <h2>API calls</h2>
+                        <div class="api-component-content">
+                            <!-- transmit endpoint -->
+                            <div class="transmit">
+                                <h3>Transmit endpoint</h3>
+                                <input class="fields" id="api-key" type="password" placeholder="Your API key" />
+                                <input class="fields" id="transmit-msg" type="text" placeholder="10110011" />
+                                <select class="fields" id="transmit-msg-format">
+                                    <option value="bin">Binary</option>
+                                    <option value="hex">Hexadecimal</option>
+                                </select>
+                                <button class="fields" onclick="transmit()">
+                                    Transmit
+                                    <!-- add icon -->
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="api-component" id="api-docs">
+                        <h2>API docs</h2>
+                        <div class="api-component-content">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

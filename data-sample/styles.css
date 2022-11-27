@@ -245,3 +245,218 @@ footer {
     width: 80px;
     height: 70px;
 }
+
+.doc-container {
+    /* add size */
+    width: 100%;
+    height: 100%;
+    /* center the text */
+    text-align: center;
+}
+
+.doc-container h1 {
+    /* add some background color */
+    background-color: #ffcc00;
+    /* add padding */
+    padding: 0.5em;
+    /* add margin */
+    margin: 0;
+    /* round the corners */
+    border-radius: 1em 1em 0 0;
+    /* add border to the top, left and right */
+    border-top: 3px solid #333;
+    border-left: 3px solid #333;
+    border-right: 3px solid #333;
+}
+
+.api-doc-panel {
+    /* add size */
+    width: 80%;
+    height: 85%;
+    /* center the div */
+    margin: 3em auto;
+}
+
+.api-components {
+    /* center the div */
+    margin: 0;
+    /* add size */
+    width: 100%;
+    height: 95%;
+    /* add bg and border */
+    background-color: #ffcc00;
+    /* round the corners */
+    border-radius: 0 0 1em 1em;
+}
+
+/* api-component as flexbox */
+.api-component {
+    float: left;
+    /* add size */
+    height: 100%;
+}
+
+.api-component h2 {
+    /* add size */
+    height: 5%;
+    /* add padding */
+    padding: 0.5em;
+    /* add margin */
+    margin: 0;
+    /* add border */
+    border: 1px solid #000;
+    /* add background color */
+    background: #333;
+    /* add text color */
+    color: #ffcc00;
+    /* add text align */
+    text-align: center;
+}
+
+/* content of api without the header */
+.api-component-content {
+    /* add size */
+    height: 90%;
+    /* add padding */
+    padding: 0.5em;
+    /* add border */
+    border: 1px solid #000;
+    /* add background color */
+    background: #333;
+    /* add text color */
+    color: #ffcc00;
+    /* add text align */
+    text-align: center;
+}
+
+#api-calls {
+    /* add size */
+    width: 70%;
+}
+
+#api-docs {
+    /* add size */
+    width: 30%;
+}
+
+/* modify the input fields in the api-component */
+.transmit .fields {
+    /* add size */
+    width: 20%;
+    height: 50px;
+    /* add border */
+    border: 2px solid #ffcc00;
+    /* add background color */
+    background: #333;
+    /* add text color */
+    color: #ffcc00;
+    /* add text align */
+    text-align: center;
+    /* round the corners */
+    border-radius: 0.5em;
+    /* margin left */
+    margin-left: 1em;
+}
+
+.transmit select {
+    /* width of the select */
+    width: 20%;
+}
+
+/* modify the select dropdown */
+.transmit select option {
+    /* add background color */
+    background: #333;
+    /* add text color */
+    color: #ffcc00;
+}
+
+.transmit button {
+    /* cursor */
+    cursor: pointer;
+    /* resize the font */
+    font-size: 1em;
+}
+
+.transmit button:hover {
+    /* change color schema */
+    background-color: #ffcc00;
+    color: #333;
+}
+
+.transmit .icon {
+    /* add the icon to the right */
+    float: right;
+    /* add size */
+    width: 12%;
+    /* add padding */
+    padding: 2px;
+}
+
+.response {
+    /* fix the position to the top right */
+    position: fixed;
+}
+
+/* design popup */
+.popup {
+    /* add size */
+    width: 20%;
+    /* add background color with transparency */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* add margin */
+    margin: 1em;
+    /* font color */
+    color: #ffcc00;
+    /* round the corners at the top */
+    border-radius: 1em;
+}
+
+.popup button {
+    /* add size */
+    width: 30px;
+    height: 30px;
+    /* add border */
+    border: 1px solid #ffcc00;
+    /* add background color */
+    background-color: #333;
+    /* add text color */
+    color: #ffcc00;
+    /* add border radius */
+    border-radius: 0.5em;
+    /* add cursor */
+    cursor: pointer;
+    /* fix the position to the top left */
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* add margin */
+    margin: 1em;
+    /* font thickness */
+    font-weight: bold;
+}
+
+.popup-content {
+    /* center this div to the middle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-header {
+    /* fix the header to the top */
+    position: fixed;
+    top: 0;
+    /* add margin */
+    margin: 1em;
+}
+
+.popup-body {
+    /* add margin */
+    margin-top: 2.5em;
+}
+
+.popup-loading-bar svg {
+    /* add shadow */
+    box-shadow: 0 0 10px #ffcc00;
+}
