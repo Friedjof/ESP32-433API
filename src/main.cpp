@@ -4,8 +4,8 @@
 #include "ESPAsyncWebServer.h"
 #include <RCSwitch.h>
 
-#include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <time.h>
 
 #include "esp_log.h"
 #include "logging.h"
@@ -16,13 +16,16 @@
 
 bool isAuthentificated(AsyncWebServerRequest *request);
 void transmit(String message, AsyncWebServerRequest *request);
+
 String addTimeToLog(String log);
+String getFormattedDateTime();
 
 AsyncWebServer server(80);
 RCSwitch transmiter = RCSwitch();
 
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 3600;
+const int   daylightOffset_sec = 3600;
 
 config cfg;
 
@@ -59,8 +62,10 @@ void setup() {
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
 
-    timeClient.begin();
-    timeClient.update();
+    // Setup NTP
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+    delay(1000);
+    Serial.println("Time: " + getFormattedDateTime());
   }
 
   // Setup 433 MHz
@@ -96,7 +101,13 @@ void setup() {
       return;
     }
 
-    request->send(SPIFFS, "/system.log", "text/plain");
+    if (request->hasParam("clear")) {
+      Serial.println("Clearing the log file");
+      SPIFFS.remove("/system.log");
+      request->send(200, "text/plain", "The log file was cleared");
+    } else {
+      request->send(SPIFFS, "/system.log", "text/plain");
+    }
   }); 
 
   server.on("/config", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -173,8 +184,16 @@ void transmit(String message, AsyncWebServerRequest *request) {
 }
 
 String addTimeToLog(String log) {
-  timeClient.update();
-  return timeClient.getFormattedTime() + " - " + log;
+  return getFormattedDateTime() + " || " + log;
+}
+
+String getFormattedDateTime() {
+  time_t now = time(nullptr);
+  struct tm timeinfo;
+  localtime_r(&now, &timeinfo);
+  char timeString[20];
+  strftime(timeString, sizeof(timeString), "%Y-%m-%d %H:%M:%S", &timeinfo);
+  return String(timeString);
 }
 
 void loop() { }

@@ -1,5 +1,4 @@
 #include "SPIFFS.h"
-#include <NTPClient.h>
 
 
 void logToSPIFFS(String message) {
@@ -12,26 +11,31 @@ void logToSPIFFS(String message) {
 }
 
 void info_log(String message) {
-    Serial.println("[INFO] " + message);
+    message = "[INFO] " + message;
+    Serial.println(message);
     logToSPIFFS(message);
 }
 
 void error_log(String message) {
-    Serial.println("[ERROR] " + message);
+    message = "[ERROR] " + message;
+    Serial.println(message);
     logToSPIFFS(message);
 }
 
 void debug_log(String message) {
-    Serial.println("[DEBUG] " + message);
+    message = "[DEBUG] " + message;
+    Serial.println(message);
     logToSPIFFS(message);
 }
 
 void warning_log(String message) {
-    Serial.println("[WARNING] " + message);
+    message = "[WARNING] " + message;
+    Serial.println(message);
     logToSPIFFS(message);
 }
 
 void fatal_log(String message) {
-    Serial.println("[FATAL] " + message);
+    message = "[FATAL] " + message;
+    Serial.println(message);
     logToSPIFFS(message);
 }

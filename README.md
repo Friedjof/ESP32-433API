@@ -5,6 +5,25 @@ This projekt links an API to a 433MHz transmitter. This is based on the [ESP32](
 - ESP32
 - 433MHz transmitter
 
+## Endpoints
+### `/`
+- GET: returns the WiFi status
+### `/styles`
+- GET: returns the styles for the web interface
+### `/logs`
+- GET: returns the logs
+   - `?key=your-api-key`: returns the logs
+   - `?clear`: clears the logs
+### `/config`
+- GET: set or return the config
+   - `?ssid=your-ssid&password=your-password`: set the WiFi config
+   - `?show`: returns the config
+### `/transmit`
+- GET: transmit a code
+   - `?key=your-api-key`: authorization
+   - `&msg=your-message`: the message to transmit
+   - `type=your-type`: the type of the message (`hex` & `bin` are supported)
+
 ## Software
 - [PlatformIO](https://platformio.org/)
 - [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
