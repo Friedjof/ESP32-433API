@@ -4,15 +4,25 @@
 #include "ESPAsyncWebServer.h"
 #include <RCSwitch.h>
 
+#include <NTPClient.h>
+#include <WiFiUdp.h>
+
+#include "esp_log.h"
+#include "logging.h"
+
 #include <ArduinoJson.h>
 
 #include <config.h>
 
 bool isAuthentificated(AsyncWebServerRequest *request);
 void transmit(String message, AsyncWebServerRequest *request);
+String addTimeToLog(String log);
 
 AsyncWebServer server(80);
 RCSwitch transmiter = RCSwitch();
+
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
 
 config cfg;
 
@@ -21,6 +31,8 @@ void setup() {
   Serial.println("Starting up...");
 
   readConfig(&cfg);
+
+  // Setup Logging to file
 
   Serial.println("Connecting to WiFi...");
 
@@ -46,6 +58,9 @@ void setup() {
     Serial.println("WiFi connected");
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
+
+    timeClient.begin();
+    timeClient.update();
   }
 
   // Setup 433 MHz
@@ -75,6 +90,15 @@ void setup() {
     request->send(SPIFFS, "/styles.css", "text/css");
   });
 
+  server.on("/logs", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (!isAuthentificated(request)) {
+      request->send(401, "text/plain", "Not Authentificated");
+      return;
+    }
+
+    request->send(SPIFFS, "/system.log", "text/plain");
+  }); 
+
   server.on("/config", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println("A request was made to GET /config");
 
@@ -90,6 +114,8 @@ void setup() {
       ESP.restart();
     } else if (request->hasParam("show")) {
       serializeConfig();
+
+      info_log(addTimeToLog("Configuration was requested"));
       request->send(200, "text/plain", "The configuration was logged to the serial console");
     } else {
       request->send(406, "text/plain", "Configuration not acceptable");
@@ -143,6 +169,12 @@ void transmit(String message, AsyncWebServerRequest *request) {
       transmiter.send(message.c_str());
     }
   }
+  info_log(addTimeToLog("Transmitted: " + message));
+}
+
+String addTimeToLog(String log) {
+  timeClient.update();
+  return timeClient.getFormattedTime() + " - " + log;
 }
 
 void loop() { }
