@@ -1,5 +1,4 @@
 #include "SPIFFS.h"
-#include <NTPClient.h>
 
 
 void logToSPIFFS(String message) {
