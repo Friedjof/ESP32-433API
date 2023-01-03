@@ -174,7 +174,7 @@ void transmit(String message, AsyncWebServerRequest *request) {
 
 String addTimeToLog(String log) {
   timeClient.update();
-  return timeClient.getFormattedTime() + " - " + log;
+  return timeClient.getEpochTime() + " - " + log;
 }
 
 void loop() { }
